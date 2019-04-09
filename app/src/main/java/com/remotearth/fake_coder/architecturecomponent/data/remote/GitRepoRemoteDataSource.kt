@@ -1,12 +1,12 @@
 package com.remotearth.fake_coder.architecturecomponent.data.remote
 
-import android.os.Handler
-import com.remotearth.fake_coder.architecturecomponent.callbacks.OnRemoteRepoReadyCallback
 import com.remotearth.fake_coder.architecturecomponent.models.Repository
+import io.reactivex.Observable
+import java.util.concurrent.TimeUnit
 
 class GitRepoRemoteDataSource {
 
-    fun getRepositories(onRepositoryReadyCallback: OnRemoteRepoReadyCallback) {
+    fun getRepositories(): Observable<ArrayList<Repository>> {
         var repoList = ArrayList<Repository>()
 
         repoList.add(Repository("FireBase Auth","AomeDIU",100,false))
@@ -18,9 +18,11 @@ class GitRepoRemoteDataSource {
         repoList.add(Repository("NewsGist","Aslam Hossain",430,false))
         repoList.add(Repository("BSC Prep Key","Aslam Hossain",430,false))
 
-        Handler().postDelayed({
-            onRepositoryReadyCallback.onRemoteDataReady(repoList)
-        }, 2000)
+        return Observable
+            .just(repoList)
+            .delay(
+                2,
+                TimeUnit.SECONDS)
     }
 
 }
